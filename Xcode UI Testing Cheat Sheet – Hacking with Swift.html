@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<!-- saved from url=(0074)https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
+<title>Xcode UI Testing Cheat Sheet – Hacking with Swift</title>
+<meta name="description" content="The least you need to know to make XCTest work with user interfaces">
+<meta name="keywords" content="hacking with swift, apple, developer, news, tutorials, swift, ios, macos, watchos, tvos, api, swift 5, swift 4, swift, swiftui, swift ui, tutorial, ios, ios 13, ios 12, wwdc, apple, ipad, iphone, free, tutorial, guide, objective c, watchos, tvos, macOS, uikit, watchkit">
+<meta name="author" content="Paul Hudson @twostraws">
+<link href="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/site-18.css" rel="stylesheet">
+<link rel="preload" href="https://www.hackingwithswift.com/webfonts/4-fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="https://www.hackingwithswift.com/webfonts/4-fa-light-300.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="alternate" type="application/rss+xml" title="Hacking with Swift RSS feed" href="https://www.hackingwithswift.com/articles/rss">
+<link rel="search" type="application/opensearchdescription+xml" title="Search Hacking with Swift" href="https://www.hackingwithswift.com/search.xml">
+<link rel="canonical" href="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet">
+<link rel="apple-touch-icon" sizes="57x57" href="https://www.hackingwithswift.com/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="https://www.hackingwithswift.com/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="https://www.hackingwithswift.com/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="https://www.hackingwithswift.com/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="https://www.hackingwithswift.com/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="https://www.hackingwithswift.com/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="https://www.hackingwithswift.com/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="https://www.hackingwithswift.com/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://www.hackingwithswift.com/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://www.hackingwithswift.com/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.hackingwithswift.com/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="https://www.hackingwithswift.com/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.hackingwithswift.com/favicon-16x16.png">
+<link rel="manifest" href="https://www.hackingwithswift.com/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:image" content="https://www.hackingwithswift.com/uploads/app-blueprint-1.jpg">
+<meta property="og:title" content="Xcode UI Testing Cheat Sheet">
+<meta property="og:description" content="The least you need to know to make XCTest work with user interfaces">
+<meta property="og:url" content="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet">
+<meta property="og:site_name" content="Hacking with Swift">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@twostraws">
+<meta name="twitter:title" content="Xcode UI Testing Cheat Sheet">
+<meta name="twitter:description" content="The least you need to know to make XCTest work with user interfaces">
+<meta name="twitter:creator" content="@twostraws">
+<meta name="twitter:image" content="https://www.hackingwithswift.com/uploads/app-blueprint-1.jpg">
+<meta name="twitter:domain" content="hackingwithswift.com">
+<meta name="twitter:dnt" content="on">
+</head>
+<body class="sections-page sidebar-collapse">
+<nav class="navbar navbar-expand-lg bg-hws fixed-top ">
+<div class="container">
+<div class="navbar-translate">
+<a class="navbar-brand" href="https://www.hackingwithswift.com/">
+<img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/logo-curves.svg" style="width: 200px; height: auto;" alt="Hacking with Swift">
+</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-bar top-bar"></span>
+<span class="navbar-toggler-bar middle-bar"></span>
+<span class="navbar-toggler-bar bottom-bar"></span>
+</button>
+</div>
+<div class="collapse navbar-collapse show">
+<ul class="navbar-nav ml-auto" id="ceva">
+<li class="nav-item dropdown">
+<a href="https://www.hackingwithswift.com/forums" class="nav-link">
+<p>Forums</p>
+</a>
+</li>
+<li class="nav-item dropdown">
+<a href="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown">
+<p>Learn</p>
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+<a class="dropdown-item" href="https://www.hackingwithswift.com/learn">
+<i class="fal fa-star fa-lg"></i> Start Here
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/articles">
+<i class="fal fa-newspaper fa-lg"></i> Latest Articles
+</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/100">
+<i class="fal fa-toolbox fa-lg"></i> 100 Days of Swift
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/100/swiftui">
+<i class="fal fa-rocket fa-lg"></i> 100 Days of SwiftUI
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/example-code">
+<i class="fal fa-toolbox fa-lg"></i> Swift Knowledge Base
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/quick-start/swiftui">
+<i class="fal fa-desktop-alt fa-lg"></i> SwiftUI by Example
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/sixty">
+<i class="fal fa-clock fa-lg"></i> Swift in Sixty Seconds
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/read">
+<i class="fal fa-book fa-lg"></i> Hacking with Swift
+</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/videos">
+<i class="fal fa-play-circle fa-lg"></i> YouTube videos
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/playgrounds">
+<i class="fal fa-map-marked-alt fa-lg"></i> Swift Playgrounds
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/unwrap">
+<i class="fal fa-fw fa-mobile-android fa-lg"></i> Get the iOS App
+</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a href="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown">
+<p>Careers</p>
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+<a class="dropdown-item" href="https://www.hackingwithswift.com/career-guide">
+<i class="fal fa-lightbulb-on fa-lg"></i> Start Here
+</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/interview-questions">
+<i class="fal fa-comment-alt-check fa-lg"></i> Interview Questions
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/review">
+<i class="fal fa-list-ul fa-lg"></i> Interactive Review
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/test">
+<i class="fal fa-graduation-cap fa-lg"></i> Test your Swift
+</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/forums/jobs">
+<i class="fal fa-building fa-lg fa-fw"></i> Find a Job
+</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a href="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown">
+<p>Store</p>
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+<a class="dropdown-item" href="https://www.hackingwithswift.com/plus">
+<i class="fal fa-star fa-lg"></i> Subscribe to Hacking with Swift+
+</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/store">
+<i class="fal fa-books fa-lg"></i> Browse Swift Courses
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/store/bundles">
+<i class="fal fa-shopping-cart fa-lg"></i> Book bundles
+</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/faq">
+<i class="fal fa-question-circle fa-lg"></i> Frequently Asked Questions
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/update-policy">
+<i class="fal fa-sparkles fa-lg"></i> Lifetime Update Policy
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/frequent-flyer">
+<i class="fal fa-plane fa-lg"></i> Frequent Flyer Club
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/apple-books">
+<i class="fal fa-book-open fa-lg"></i> Buy on Apple Books
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/reviews">
+<i class="fal fa-star fa-lg"></i> Reader Reviews
+</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/refund-policy">
+<i class="fal fa-comment-dollar fa-lg"></i> Refund Policy
+</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a href="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink1" data-toggle="dropdown">
+<p>About</p>
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink1">
+<a class="dropdown-item" href="https://www.hackingwithswift.com/about">
+<i class="fal fa-users fa-lg"></i> About Hacking with Swift
+</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/awards">
+<i class="fal fa-trophy fa-lg"></i> Swift Community Awards
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/live">
+<i class="fal fa-ticket-alt fa-lg"></i> Hacking with Swift Live
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/speaking">
+<i class="fal fa-keynote fa-lg"></i> Conference Talks
+</a>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/affiliates">
+<i class="fal fa-envelope-open-dollar fa-lg"></i> Affiliate Program
+</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/newsletter">
+<i class="fal fa-newspaper fa-lg"></i> Newsletter
+</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="https://www.hackingwithswift.com/sponsor">
+<i class="fal fa-megaphone fa-lg"></i> Sponsor the site
+</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a href="https://www.hackingwithswift.com/plus" class="nav-link btn btn-sm" style="margin: 4px 8px; background-color: rgba(255, 255, 255, 0.9); color: black;">
+<p style="font-size: inherit;">SUBSCRIBE</p>
+</a>
+</li>
+<li class="nav-item">
+<form class="form-inline ml-auto" autocomplete="off" data-background-color="" method="get" action="https://www.hackingwithswift.com/search" onsubmit="return global_search_navigate();">
+<div class="input-group" style="margin-bottom: 0;">
+<div class="input-group-prepend">
+<span class="input-group-text"><i class="fal fa-search"></i></span>
+</div>
+<input name="criteria" id="global_search" type="search" class="form-control" placeholder="Search" aria-label="Search">
+</div>
+</form>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<div class="wrapper">
+<div class="section-space"></div>
+<skybar id="latestTutorial">
+<div style="background-color: #222222; margin: 0;">
+<p style="padding: 3px; padding-top: 7px; margin: 0; color: white; text-align: center;"><a href="https://www.hackingwithswift.com/plus" style="color: white;" rel="noopener"><span class="pure-evil">NEW:</span> <strong>Start my new Ultimate Portfolio App course with a free Hacking with Swift+ trial!</strong> &gt;&gt;</a></p>
+</div>
+</skybar>
+<div class="cd-section" id="blogs">
+<div class="blogs-4" id="blogs-4">
+<div class="container">
+<div class="row">
+<div class="col-lg-9 mx-auto">
+<div class="row">
+<div class="col-md-12">
+<h1 class="title" style="margin: 0; word-break: break-word;">Xcode UI Testing Cheat Sheet</h1>
+<p class="lead description">The least you need to know to make XCTest work with user interfaces</p>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<p style="margin: 0;"><a href="https://www.hackingwithswift.com/about">Paul Hudson</a> &nbsp;&nbsp; <time itemprop="dateModified" datetime="2019-10-14T22:37:01+00:00">October 14th 2019</time>
+<meta itemprop="datePublished" content="2018-12-13T14:59:35+00:00"> &nbsp;&nbsp; <i class="fab fa-twitter" aria-hidden="true" style="color: #4099ff"></i> <a href="https://twitter.com/twostraws" target="_blank">@twostraws</a></p>
+</div>
+</div>
+<div class="row" style="margin-top: 20px;">
+<div class="col-md-12">
+<img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/app-blueprint-1.jpg" class="img-responsive" style="width: 100%; max-height: 400px; object-fit: cover; border: 1px solid #888888;">
+</div>
+</div>
+<div class="row" style="margin-top: 20px;">
+<div class="col-md-12">
+<p>User interface testing is the ultimate integration test, because you’re seeing the app exactly how users do –&nbsp;there’s no special internal knowledge of how your code is structured as we get with unit tests, and you can’t add mocks or stubs to isolate specific functionality.</p>
+<p>Instead, user interface tests access your app using iOS’s accessibility system: they scan the interface for whatever user interface controls you request, manipulate them to follow instructions you’ve provided, then make assertions about the end state of your app. This makes them much more fragile than unit tests because small changes can cause tests to fail, but on the other hand do provide excellent proof that your app workflows function as intended.</p>
+<p>Previously I’ve written about <a href="https://www.hackingwithswift.com/articles/83/how-to-test-your-user-interface-using-xcode">how to test your user interface using Xcode</a>, so in this article we’re going to cut to the chase: here are some quick code snippets that help you solve a variety of common problems using Xcode’s UI testing system.</p>
+<div class="hws-sponsor" style="position: relative;">
+<a rel="nofollow noopener" target="_blank" href="https://apps.apple.com/app/vire-regex-you-can-read/id1550861119" style="display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100;"></a>
+<picture>
+<source srcset="/img/sponsors/vire-dark.svg" media="(prefers-color-scheme: dark)">
+<img alt="Hacking with Swift is sponsored by ViRE" src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/vire-light.svg">
+</picture>
+<p><strong class="badge badge-danger">SPONSORED</strong> ViRE offers discoverable way of working with regex. It provides really readable regex experience, code complete &amp; cheat sheet, unit tests, powerful replace system, step-by-step search &amp; replace, regex visual scheme, regex history &amp; playground. ViRE is available on Mac &amp; iPad.</p>
+<p class="text-right"><a rel="nofollow noopener" target="_blank" href="https://apps.apple.com/app/vire-regex-you-can-read/id1550861119" class="btn btn-danger" style="border-radius: 10px; text-decoration: none; margin-bottom: 0; font-weight: bold;">Download on the App Store</a></p>
+</div>
+<p class="text-center" style="margin-top: -20px; margin-bottom: 40px; font-style: italic;"><a href="https://www.hackingwithswift.com/sponsor">Sponsor Hacking with Swift and reach the world's largest Swift community!</a></p>
+<h3 class="title">Finding elements</h3>
+<p>If you only have one a specific element in your interface, you can use these accessors to find them:</p>
+<pre class=" language-swift"><code class=" language-swift">app<span class="token punctuation">.</span>alerts<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>buttons<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>collectionViews<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>images<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>maps<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>navigationBars<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>pickers<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>progressIndicators<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>scrollViews<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>segmentedControls<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>staticTexts<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>switches<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>tabBars<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>tables<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>textFields<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>textViews<span class="token punctuation">.</span>element
+app<span class="token punctuation">.</span>webViews<span class="token punctuation">.</span>element</code></pre>
+<p><strong>Note:</strong> <code>staticTexts</code> refers to labels on iOS.</p>
+<p>For more specific elements, set an accessibility identifier like this:</p>
+<pre class=" language-swift"><code class=" language-swift">helpLabel<span class="token punctuation">.</span>accessibilityIdentifier <span class="token operator">=</span> <span class="token string">"Help"</span></code></pre>
+<p>You can then find it like this:</p>
+<pre class=" language-swift"><code class=" language-swift">app<span class="token punctuation">.</span>staticTexts<span class="token punctuation">[</span><span class="token string">"Help"</span><span class="token punctuation">]</span></code></pre>
+<p>The accessibility identifier is designed for internal use only, unlike the other two accessibility text fields that are read to the user when Voiceover is activated.</p>
+<h3 class="title">Advanced queries</h3>
+<p>XCTest runs queries on the app’s user interface, attempting to find some piece of user interface. While the queries above are fine when you’re just getting started, there are lots of advanced queries we can run to find specific elements:</p>
+<pre class=" language-swift"><code class=" language-swift"><span class="token comment">// the only button</span>
+app<span class="token punctuation">.</span>buttons<span class="token punctuation">.</span>element
+
+<span class="token comment">// the button titled "Help"</span>
+app<span class="token punctuation">.</span>buttons<span class="token punctuation">[</span><span class="token string">"Help"</span><span class="token punctuation">]</span>
+
+<span class="token comment">// all buttons inside a specific scroll view (direct subviews only)</span>
+app<span class="token punctuation">.</span>scrollViews<span class="token punctuation">[</span><span class="token string">"Main"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">children</span><span class="token punctuation">(</span>matching<span class="token punctuation">:</span> <span class="token punctuation">.</span>button<span class="token punctuation">)</span>
+
+<span class="token comment">// all buttons anywhere inside a specific scroll view (subviews, sub-subviews, sub-sub-subviews, etc)</span>
+app<span class="token punctuation">.</span>scrollViews<span class="token punctuation">[</span><span class="token string">"Main"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">descendants</span><span class="token punctuation">(</span>matching<span class="token punctuation">:</span> <span class="token punctuation">.</span>button<span class="token punctuation">)</span>    
+
+<span class="token comment">// find the first and fourth buttons</span>
+app<span class="token punctuation">.</span>buttons<span class="token punctuation">.</span><span class="token function">element</span><span class="token punctuation">(</span>boundBy<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span>buttons<span class="token punctuation">.</span><span class="token function">element</span><span class="token punctuation">(</span>boundBy<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">)</span>
+
+<span class="token comment">// find the first button</span>
+app<span class="token punctuation">.</span>buttons<span class="token punctuation">.</span>firstMatch</code></pre>
+<p>Some of those seem similar, so let me clarify a few things:</p>
+<ul>
+<li>If you use <code>element</code> to read precisely one element, and there is more than one matching element (e.g. several buttons) your test will fail.</li>
+<li><code>firstMatch</code> will return the first item that matches your query, even if you have more than one matching element.</li>
+<li>On the plus side, this makes <code>firstMatch</code> significantly faster than <code>element</code> because it won’t check for duplicates. On the down side, using <code>firstMatch</code> won’t warn you of accidental duplicates.</li>
+<li><code>children(matching:)</code> only reads immediate subviews, whereas <code>descdendant(matching:)</code> reads all subviews and subviews of subviews.</li>
+<li>For that reason, <code>children(matching:)</code> is significantly more efficient than <code>descdendant(matching:)</code>.</li>
+</ul>
+<p>Remember, Xcode literally scans your user interface to discover what’s available – user interface test code is a series of instructions telling Xcode what to look for, so the more precise we can be the better.</p>
+<h3 class="title">Interacting with elements</h3>
+<p>XCTest gives us five different ways to trigger taps on elements:</p>
+<ol>
+<li><code>tap()</code> triggers a standard tap, which will trigger buttons or active text fields for editing.</li>
+<li><code>doubleTap()</code> taps twice in quick succession.</li>
+<li><code>twoFingerTap()</code> uses two fingers to tap once on an element.</li>
+<li><code>tap(withNumberOfTaps:numberOfTouches:)</code> lets you control tap and touch count at the same time.</li>
+<li><code>press(forDuration:)</code> triggers long presses over a set number of seconds.</li>
+</ol>
+<p>There are also specific methods for gesture control:</p>
+<ul>
+<li><code>swipeLeft()</code>, <code>swipeRight()</code>, <code>swipeUp()</code>, and <code>swipeDown()</code> execute single swipes in a specific direction, although there is no control over speed or distance.</li>
+<li><code>pinch(withScale:velocity:)</code> pinches and zooms on something like a map. Specify scales between 0 and 1 to zoom out, or scales greater than 1 to zoom in. Velocity is specified as “scale factor per second” and causes a little overscroll after you zoom –&nbsp;use 0 to make the zoom precise.</li>
+<li><code>rotate(_: withVelocity:)</code> rotates around an element. The first parameter is a <code>CGFloat</code> specifying an angle in radians, and the second is radians per second.</li>
+</ul>
+<p>So, you can tap on the only text field like this:</p>
+<pre class=" language-swift"><code class=" language-swift">app<span class="token punctuation">.</span>textFields<span class="token punctuation">.</span>element<span class="token punctuation">.</span><span class="token function">tap</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>Or double tap on a specific button like this:</p>
+<pre class=" language-swift"><code class=" language-swift">app<span class="token punctuation">.</span>buttons<span class="token punctuation">[</span><span class="token string">"Blue"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">doubleTap</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>There are two more element-specific methods you’ll want to use:</p>
+<ul>
+<li>For pickers, use <code>adjust(toPickerWheelValue: 1)</code> to make a picker scroll through to select a particular value.</li>
+<li>For sliders, use <code>adjust(toNormalizedSliderPosition: 0.5)</code> to move it to a specific position, </li>
+</ul>
+<h3 class="title">Typing text</h3>
+<p>You can activate a text field and type individual letters in the keyboard:</p>
+<pre class=" language-swift"><code class=" language-swift">app<span class="token punctuation">.</span>textFields<span class="token punctuation">.</span>element<span class="token punctuation">.</span><span class="token function">tap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span>keys<span class="token punctuation">[</span><span class="token string">"t"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">tap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span>keys<span class="token punctuation">[</span><span class="token string">"e"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">tap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span>keys<span class="token punctuation">[</span><span class="token string">"s"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">tap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span>keys<span class="token punctuation">[</span><span class="token string">"t"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">tap</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>Alternatively, you can select and type whole strings like this:</p>
+<pre class=" language-swift"><code class=" language-swift">app<span class="token punctuation">.</span>textFields<span class="token punctuation">.</span>element<span class="token punctuation">.</span><span class="token function">typeText</span><span class="token punctuation">(</span><span class="token string">"test"</span><span class="token punctuation">)</span>   </code></pre>
+<h3 class="title">Making assertions</h3>
+<p>Once you’ve found the element you want to test, you can make assertions against it using the regular XCTest functions:</p>
+<pre class=" language-swift"><code class=" language-swift"><span class="token function">XCTAssertEqual</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>buttons<span class="token punctuation">.</span>element<span class="token punctuation">.</span>title<span class="token punctuation">,</span> <span class="token string">"Buy"</span><span class="token punctuation">)</span>
+<span class="token function">XCTAssertEqual</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>staticTexts<span class="token punctuation">.</span>element<span class="token punctuation">.</span>label<span class="token punctuation">,</span> <span class="token string">"test"</span><span class="token punctuation">)</span></code></pre>
+<p>There are two things that might catch you out. First, percentages for things like progress indicators are reported as strings with “%” attached. So, to check them you might write code like this:</p>
+<pre class=" language-swift"><code class=" language-swift"><span class="token keyword">guard</span> <span class="token keyword">let</span> completion <span class="token operator">=</span> app<span class="token punctuation">.</span>progressIndicators<span class="token punctuation">.</span>element<span class="token punctuation">.</span>value <span class="token keyword">as</span><span class="token operator">?</span> <span class="token builtin">String</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token function">XCTFail</span><span class="token punctuation">(</span><span class="token string">"Unable to find the progress indicator."</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">XCTAssertEqual</span><span class="token punctuation">(</span>completion<span class="token punctuation">,</span> <span class="token string">"0%"</span><span class="token punctuation">)</span></code></pre>
+<p>Second, checking whether an element exists can be done using the <code>exists</code> check, like this:</p>
+<pre class=" language-swift"><code class=" language-swift"><span class="token function">XCTAssertTrue</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>alerts<span class="token punctuation">[</span><span class="token string">"Warning"</span><span class="token punctuation">]</span><span class="token punctuation">.</span>exists<span class="token punctuation">)</span></code></pre>
+<p>However, it’s usually a good idea to allow a little leeway because you’re working with a real device –&nbsp;animations might be happening, for example. So, instead of using <code>exists</code> it’s common to use <code>waitForExistence(timeout:)</code> instead, like this:</p>
+<pre class=" language-swift"><code class=" language-swift"><span class="token function">XCTAssertTrue</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>alerts<span class="token punctuation">[</span><span class="token string">"Warning"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">waitForExistence</span><span class="token punctuation">(</span>timeout<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<p>If that element exists immediately then the method returns immediately and the test passes, but if it doesn’t then the method will wait for up to one second –&nbsp;it’s still really fast.</p>
+<h3 class="title">Controlling tests</h3>
+<p>Creating an instance of <code>XCUIApplication</code> with no parameters lets you control whichever application is specified as the “Target Application” in Xcode’s target settings. So, you can create and launch your target application like this:</p>
+<pre class=" language-swift"><code class=" language-swift"><span class="token function">XCUIApplication</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">launch</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>You can also create an application with a specific bundle identifier, which is helpful if you have two apps and want to test exchanging data between the two of them:</p>
+<pre class=" language-swift"><code class=" language-swift"><span class="token function">XCUIApplication</span><span class="token punctuation">(</span>bundleIdentifier<span class="token punctuation">:</span> <span class="token string">"com.hackingwithswift.hairforceone"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">launch</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>If you want to pass specific arguments to your app, perhaps to make it perform some test-specific set up, you can do that using the <code>launchArguments</code> array:</p>
+<pre class=" language-swift"><code class=" language-swift"><span class="token keyword">let</span> app <span class="token operator">=</span> <span class="token function">XCUIApplication</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span>launchArguments <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"enable-testing"</span><span class="token punctuation">]</span>
+app<span class="token punctuation">.</span><span class="token function">launch</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>That will pass “enable-testing” to the app when it’s launched, which it can then respond to, like this:</p>
+<pre class=" language-swift"><code class=" language-swift">#<span class="token keyword">if</span> <span class="token constant">DEBUG</span>
+<span class="token keyword">if</span> <span class="token builtin">CommandLine</span><span class="token punctuation">.</span>arguments<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">"enable-testing"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">configureAppForTesting</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+#endif</code></pre>
+<p>What <code>configureAppForTesting()</code> does is down to you, but you might want to consider running <code>UIView.setAnimationsEnabled(false)</code> to disable animations during testing.</p>
+<p>If the system will throw up alerts during your test –&nbsp;for example, if you ask for permission to read the user’s location – you can set a closure to run that can evaluate the system interruption and take any action you want. If you handled the interruption successfully your closure should return true; if not return false, and any other interruption monitors can be run.</p>
+<p>For example:</p>
+<pre class=" language-swift"><code class=" language-swift"><span class="token function">addUIInterruptionMonitor</span><span class="token punctuation">(</span>withDescription<span class="token punctuation">:</span> <span class="token string">"Automatically allow location permissions"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> alert <span class="token keyword">in</span>
+    alert<span class="token punctuation">.</span>buttons<span class="token punctuation">[</span><span class="token string">"OK"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">tap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Remember, a failing UI test means your application isn’t in the visual state it expected to be, which in turn means later tests are likely to fail. As a result, it’s common to keep this line inside your <code>setUp()</code> method:</p>
+<pre class=" language-swift"><code class=" language-swift">continueAfterFailure <span class="token operator">=</span> <span class="token boolean">false</span></code></pre>
+<h3 class="title">Handling screenshots</h3>
+<p>Xcode automatically takes screenshots as it runs your UI tests, and automatically deletes them if your tests succeed. But if the tests <em>fails</em> then Xcode will keep the screenshots to help you step through visually and figure out what went wrong.</p>
+<p>You can also take screenshots by hand when something important has happened, attaching a label of your choosing such as&nbsp;“User authentication” or “Cancelling purchase”, for example. You can also ask Xcode to keep your screenshots even when tests pass, overriding the default behavior.</p>
+<p>To create a screenshot, just call <code>screenshot()</code> on any element. That might be a single control in your app, or it might be the whole app itself, in which case you’ll get the whole screen. Once you have that, wrap it in an instance of <code>XCTAttachment</code>, optionally add a name and lifespan, then call <code>add()</code> to add it to your test run.</p>
+<p>For example:</p>
+<pre class=" language-swift"><code class=" language-swift"><span class="token keyword">let</span> screenshot <span class="token operator">=</span> app<span class="token punctuation">.</span><span class="token function">screenshot</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> attachment <span class="token operator">=</span> <span class="token function">XCTAttachment</span><span class="token punctuation">(</span>screenshot<span class="token punctuation">:</span> screenshot<span class="token punctuation">)</span>
+attachment<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"My Great Screenshot"</span>
+attachment<span class="token punctuation">.</span>lifetime <span class="token operator">=</span> <span class="token punctuation">.</span>keepAlways
+<span class="token function">add</span><span class="token punctuation">(</span>attachment<span class="token punctuation">)</span></code></pre>
+<p><code>XCTAttachment</code> is good for storing things other than screenshots: it has convenience initializers for any <code>Codable</code> and <code>NSCoding</code> objects, or you can just write a <code>Data</code> instance into there.</p>
+<h3 class="title">What now?</h3>
+<p>I hope this has given you a good starting point from which you can write your own user interface tests. Previously Xcode’s UI testing system got a pretty bad rap, partly because the recording system was (and is) still fundamentally broken, but partly also because it’s easy to write slow, flaky tests if you don’t pay attention.</p>
+<p>So, make sure you prefer <code>waitForExistence(timeout:)</code> over a regular <code>exists</code> check, prefer using <code>firstMatch</code> over <code>element</code> where possible, and try to write the most specific queries you can –&nbsp;it all helps improve speed and help keep your tests working into the future.</p>
+<p>If you have any tips and tricks for UI testing that aren't covered here, <a rel="nofollow noopener" target="_blank" href="https://twitter.com/twostraws">send me a tweet</a> and I'll add them!</p>
+<div class="hws-sponsor" style="position: relative;">
+<a href="https://apps.apple.com/app/vire-regex-you-can-read/id1550861119" style="display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100;"></a>
+<picture>
+<source srcset="/img/sponsors/vire-dark.svg" media="(prefers-color-scheme: dark)">
+<img alt="Hacking with Swift is sponsored by ViRE" src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/vire-light.svg">
+</picture>
+<p><strong class="badge badge-danger">SPONSORED</strong> ViRE offers discoverable way of working with regex. It provides really readable regex experience, code complete &amp; cheat sheet, unit tests, powerful replace system, step-by-step search &amp; replace, regex visual scheme, regex history &amp; playground. ViRE is available on Mac &amp; iPad.</p>
+<p class="text-right"><a href="https://apps.apple.com/app/vire-regex-you-can-read/id1550861119" class="btn btn-danger" style="border-radius: 10px; text-decoration: none; margin-bottom: 0; font-weight: bold;">Download on the App Store</a></p>
+</div>
+<p class="text-center" style="margin-top: -20px; margin-bottom: 40px; font-style: italic;"><a href="https://www.hackingwithswift.com/sponsor">Sponsor Hacking with Swift and reach the world's largest Swift community!</a></p>
+</div>
+</div>
+</div>
+<div class="col-lg-3" style="padding: 0; padding-top: 20px;">
+<div class="books-sidebar" style="text-align: center;">
+<strong>BUY OUR BOOKS</strong>
+</div>
+<div class="books-sidebar">
+<a href="https://www.hackingwithswift.com/store/pro-swift"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/pro-swift.webp" srcset="/img/covers-flat/pro-swift@2x.png 2x" alt="Buy Pro Swift" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/swift-design-patterns"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/patterns.webp" srcset="/img/covers-flat/patterns@2x.png 2x" alt="Buy Swift Design Patterns" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/testing-swift"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/testing.webp" srcset="/img/covers-flat/testing@2x.png 2x" alt="Buy Testing Swift" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/hacking-with-ios"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/hws.png" srcset="/img/covers-flat/hws@2x.png 2x" alt="Buy Hacking with iOS" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/swift-coding-challenges"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/swiftcc.webp" srcset="/img/covers-flat/swiftcc@2x.png 2x" alt="Buy Swift Coding Challenges" width="95"></a>
+ <a href="https://www.hackingwithswift.com/store/swift-on-sundays-1"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/sundays-1.webp" srcset="/img/covers-flat/sundays-1@2x.png 2x" alt="Buy Swift on Sundays Volume One" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/server-side-swift"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/vapor.webp" srcset="/img/covers-flat/vapor@2x.png 2x" alt="Buy Server-Side Swift (Vapor Edition)" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/advanced-ios-1"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/advanced-ios-1.webp" srcset="/img/covers-flat/advanced-ios-1@2x.png 2x" alt="Buy Advanced iOS Volume One" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/advanced-ios-2"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/advanced-ios-2.webp" srcset="/img/covers-flat/advanced-ios-2@2x.png 2x" alt="Buy Advanced iOS Volume Two" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/advanced-ios-3"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/advanced-ios-3.webp" srcset="/img/covers-flat/advanced-ios-3@2x.png 2x" alt="Buy Advanced iOS Volume Three" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/hacking-with-watchos"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/watchos.webp" srcset="/img/covers-flat/watchos@2x.png 2x" alt="Buy Hacking with watchOS" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/hacking-with-tvos"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/tvos.webp" srcset="/img/covers-flat/tvos@2x.png 2x" alt="Buy Hacking with tvOS" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/hacking-with-macos"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/macos.webp" srcset="/img/covers-flat/macos@2x.png 2x" alt="Buy Hacking with macOS" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/dive-into-spritekit"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/spritekit.webp" srcset="/img/covers-flat/spritekit@2x.png 2x" alt="Buy Dive Into SpriteKit" width="95"></a>
+<a href="https://www.hackingwithswift.com/sixty"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/sixty.webp" srcset="/img/covers-flat/sixty@2x.png 2x" alt="Buy Swift in Sixty Seconds" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/objective-c-for-swift-developers"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/objc.webp" srcset="/img/covers-flat/objc@2x.png 2x" alt="Buy Objective-C for Swift Developers" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/server-side-swift"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/kitura.webp" srcset="/img/covers-flat/kitura@2x.png 2x" alt="Buy Server-Side Swift (Kitura Edition)" width="95"></a>
+<a href="https://www.hackingwithswift.com/store/beyond-code"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/beyond-code.png" srcset="/img/covers-flat/beyond-code@2x.png 2x" alt="Buy Beyond Code" width="95"></a>
+</div>
+</div>
+</div>
+<div style="margin-bottom: 20px;">
+<div class="row">
+<div class="col-sm-1" style="text-align: left;"></div>
+<div class="col-sm-2">
+<p style="text-align: center;"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/paul.webp" srcset="/img/paul@2x.png 2x" class="img-responsive" style="border-radius: 64px; border: 1px solid black; margin: auto;"></p>
+<p style="text-align: center;"><a href="https://twitter.com/twostraws">@twostraws</a></p>
+</div>
+<div class="col-sm-8" style="text-align: left;"><h3 style="margin: 0">About the author</h3><p>Paul Hudson is the creator of Hacking with Swift, the <a href="https://www.hackingwithswift.com/store">most comprehensive series of Swift books</a> in the world. He's also the editor of <a href="https://www.hackingwithswift.com/articles">Swift Developer News</a>, the maintainer of the <a href="https://www.hackingwithswift.com/example-code">Swift Knowledge Base</a>, and a speaker at <a href="https://www.hackingwithswift.com/speaking">Swift events around the world</a>. If you're curious you can <a href="https://www.hackingwithswift.com/about">learn more here</a>.</p></div>
+<div class="col-sm-1" style="text-align: left;"></div>
+</div> </div>
+<div class="row" style="margin-top: 40px">
+<div class="col-6 hws-news-others">
+<p class="lead"><a href="https://www.hackingwithswift.com/articles" class="hws-primary-text">More articles</a></p>
+</div>
+<div class="col-6 hws-news-others">
+<p class="lead text-right"><img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/feed.webp" style="height: 22px; vertical-align: middle; margin-bottom: 4px;"> <a class="hws-primary-text" href="https://www.hackingwithswift.com/articles/rss">
+RSS feed</a></p>
+</div>
+</div>
+<div class="row">
+<div class="card-deck" style="margin-bottom: 0px;">
+<div class="col-sm-6 col-lg-3 mb-4 card-deck mx-auto">
+<div class="card card-blog">
+<div class="card-image">
+<a href="https://www.hackingwithswift.com/articles/230/how-to-become-an-ios-developer">
+<img class="img rounded" src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/coding-man-1.jpg" loading="lazy">
+</a>
+</div>
+<div class="card-body" style="padding: 1rem">
+<h4 class="card-title" style="margin: 0">
+<a href="https://www.hackingwithswift.com/articles/230/how-to-become-an-ios-developer">How to Become an iOS Developer in 2021</a>
+</h4>
+</div>
+</div>
+</div>
+<div class="col-sm-6 col-lg-3 mb-4 card-deck mx-auto">
+<div class="card card-blog">
+<div class="card-image">
+<a href="https://www.hackingwithswift.com/articles/229/24-quick-xcode-tips">
+<img class="img rounded" src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/xcode.jpg" loading="lazy">
+</a>
+</div>
+<div class="card-body" style="padding: 1rem">
+<h4 class="card-title" style="margin: 0">
+<a href="https://www.hackingwithswift.com/articles/229/24-quick-xcode-tips">24 Quick Xcode Tips</a>
+</h4>
+</div>
+</div>
+</div>
+<div class="col-sm-6 col-lg-3 mb-4 card-deck mx-auto">
+<div class="card card-blog">
+<div class="card-image">
+<a href="https://www.hackingwithswift.com/articles/228/whats-new-in-swift-5-4">
+<img class="img rounded" src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/swift-evolution-5.jpg" loading="lazy">
+</a>
+</div>
+<div class="card-body" style="padding: 1rem">
+<h4 class="card-title" style="margin: 0">
+<a href="https://www.hackingwithswift.com/articles/228/whats-new-in-swift-5-4">What’s new in Swift 5.4?</a>
+</h4>
+</div>
+</div>
+</div>
+<div class="col-sm-6 col-lg-3 mb-4 card-deck mx-auto">
+<div class="card card-blog">
+<div class="card-image">
+<a href="https://www.hackingwithswift.com/articles/227/which-swiftui-property-wrapper">
+<img class="img rounded" src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/swift-evolution-1.jpg" loading="lazy">
+</a>
+</div>
+<div class="card-body" style="padding: 1rem">
+<h4 class="card-title" style="margin: 0">
+<a href="https://www.hackingwithswift.com/articles/227/which-swiftui-property-wrapper">Which SwiftUI property wrapper to choose in any situation</a>
+</h4>
+</div>
+</div>
+</div>
+<div class="col-sm-6 col-lg-3 mb-4 card-deck mx-auto">
+<div class="card card-blog">
+<div class="card-image">
+<a href="https://www.hackingwithswift.com/articles/226/5-steps-to-better-swiftui-views">
+<img class="img rounded" src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/swiftui.jpg" loading="lazy">
+</a>
+</div>
+<div class="card-body" style="padding: 1rem">
+<h4 class="card-title" style="margin: 0">
+<a href="https://www.hackingwithswift.com/articles/226/5-steps-to-better-swiftui-views">5 Steps to Better SwiftUI Views</a>
+</h4>
+</div>
+</div>
+</div>
+<div class="col-sm-6 col-lg-3 mb-4 card-deck mx-auto">
+<div class="card card-blog">
+<div class="card-image">
+<a href="https://www.hackingwithswift.com/articles/225/year-in-review-2020">
+<img class="img rounded" src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/calendar.jpg" loading="lazy">
+</a>
+</div>
+<div class="card-body" style="padding: 1rem">
+<h4 class="card-title" style="margin: 0">
+<a href="https://www.hackingwithswift.com/articles/225/year-in-review-2020">Year in review: 2020</a>
+</h4>
+</div>
+</div>
+</div>
+<div class="col-sm-6 col-lg-3 mb-4 card-deck mx-auto">
+<div class="card card-blog">
+<div class="card-image">
+<a href="https://www.hackingwithswift.com/articles/224/common-swiftui-mistakes-and-how-to-fix-them">
+<img class="img rounded" src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/swiftui.jpg" loading="lazy">
+</a>
+</div>
+<div class="card-body" style="padding: 1rem">
+<h4 class="card-title" style="margin: 0">
+<a href="https://www.hackingwithswift.com/articles/224/common-swiftui-mistakes-and-how-to-fix-them">8 Common SwiftUI Mistakes - and how to fix them</a>
+</h4>
+</div>
+</div>
+</div>
+<div class="col-sm-6 col-lg-3 mb-4 card-deck mx-auto">
+<div class="card card-blog">
+<div class="card-image">
+<a href="https://www.hackingwithswift.com/articles/223/hacking-with-swift-live-2020-raises-38000-for-charity">
+<img class="img rounded" src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/hws-live.jpg" loading="lazy">
+</a>
+</div>
+<div class="card-body" style="padding: 1rem">
+<h4 class="card-title" style="margin: 0">
+<a href="https://www.hackingwithswift.com/articles/223/hacking-with-swift-live-2020-raises-38000-for-charity">Hacking with Swift Live 2020 raises $38,000 for charity</a>
+</h4>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section class="page-rating-container" style="margin-top: 40px" data-background-color="gray">
+<div class="container">
+<div class="row text-center" style="display: block;">
+<div id="page-rating-start">
+<p class="m-0">Was this page useful? Let us know!</p>
+<div class="br-wrapper br-theme-css-stars"><select id="page-rating" style="display: none;">
+<option value=""></option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+</select><div class="br-widget"><a href="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet#" data-rating-value="1" data-rating-text="1"></a><a href="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet#" data-rating-value="2" data-rating-text="2"></a><a href="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet#" data-rating-value="3" data-rating-text="3"></a><a href="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet#" data-rating-value="4" data-rating-text="4"></a><a href="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet#" data-rating-value="5" data-rating-text="5"></a><div class="br-current-rating"></div></div></div>
+</div>
+<p class="m-0"><small>Average rating: 4.9/5</small></p>
+<div id="page-rating-end" style="display: none">
+<p>Thank you!</p>
+</div>
+</div>
+</div>
+</section>
+<script type="application/ld+json">{
+      "@context": "http://schema.org",
+      "@type": "Article",
+      "author": "Paul Hudson",
+      "datePublished": "2018-12-13",
+      "dateModified": "2019-10-14",
+      "headline": "Xcode UI Testing Cheat Sheet",
+      "image": {
+        "@type": "imageObject",
+        "url": "https://www.hackingwithswift.com/uploads/app-blueprint-1.jpg"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "worstRating": "1.0",
+            "bestRating": "5.0",
+            "reviewCount": "46"
+        },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hacking with Swift",
+        "logo": {
+          "@type": "imageObject",
+            "url": "https://www.hackingwithswift.com/files/logo-large.png"
+          }
+        }
+      }
+    </script>
+<div class="buy-footer">
+<a href="https://www.hackingwithswift.com/store" class="btn btn-block btn-full-width" style="white-space: normal;">Click here to visit the Hacking with Swift store &gt;&gt;</a>
+</div>
+<footer class="footer" style="background-color: #444444; background: linear-gradient(to bottom, #505050 0%,#333333 100%);">
+<div class="container text-center">
+<div class="row">
+<div class="col-md-4 contact-details">
+<a href="https://twitter.com/twostraws" rel="noopener">
+<h4><i class="fab fa-twitter fa-3x"></i></h4>
+<p>@twostraws</p>
+</a>
+</div>
+<div class="col-md-4 contact-details">
+<a href="mailto:paul@hackingwithswift.com">
+<h4><i class="fal fa-envelope fa-3x"></i></h4>
+<p>paul@hackingwithswift.com</p>
+</a>
+</div>
+<div class="col-md-4 contact-details">
+<a href="https://www.hackingwithswift.com/sponsor">
+<h4><i class="fal fa-megaphone fa-3x"></i></h4>
+<p>Sponsor the site</p>
+</a>
+</div>
+</div>
+<div class="row copyright">
+<div class="col-lg-12">
+<p>
+<a href="https://www.hackingwithswift.com/about">About</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<a href="https://www.hackingwithswift.com/glossary">Glossary</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<a href="https://www.hackingwithswift.com/privacy">Privacy Policy</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<a href="https://www.hackingwithswift.com/refund-policy">Refund Policy</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<a href="https://www.hackingwithswift.com/update-policy">Update Policy</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<a href="https://www.hackingwithswift.com/conduct">Code of Conduct</a>
+</p>
+<p><a href="https://www.hackingwithswift.com/supporters"><strong><em>Thanks for your support, Miroslav Kolc!</em></strong></a></p>
+<p style="margin: 50px 0;">Swift, the Swift logo, Swift Playgrounds, Xcode, Instruments, Cocoa Touch, Touch ID, AirDrop, iBeacon, iPhone, iPad, Safari, App Store, watchOS, tvOS, Mac and macOS are trademarks of Apple Inc., registered in the U.S. and other countries. Pulp Fiction is copyright © 1994 Miramax Films. Hacking with Swift is ©2021 Hudson Heavy Industries.</p>
+</div>
+</div>
+</div>
+</footer>
+<div class="text-center" style="margin-bottom: 30px;">
+<div class="row" style="margin-top: 50px;">
+<div class="col-md-2">&nbsp;</div>
+<div class="col-md-8" style="text-align: center;">
+<img src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/unknown_user.webp" alt="Unknown user" style="max-height: 120px; border: 4px solid #777777; border-radius: 60px;">
+<p class="lead" style="margin-top: 20px; margin-bottom: 0;">You are not logged in</p>
+<a href="https://www.hackingwithswift.com/login" class="btn btn-success btn-lg">Log in or create account</a>
+</div>
+<div class="col-md-2">&nbsp;</div>
+</div>
+</div>
+</div>
+<div aria-atomic="true" id="hws-pasteboard-toast" class="toast" data-autohide="true" data-delay="1000" style="position: fixed; bottom: 20px; right: 20px;">
+<div class="toast-body">
+<p style="color: black; margin: 0">Link copied to your pasteboard.</p>
+</div>
+</div>
+<script src="./Xcode UI Testing Cheat Sheet – Hacking with Swift_files/site-2.js" type="text/javascript"></script>
+<script type="text/javascript">
+		$(function() {
+			$('#page-rating').barrating('show', {
+				theme: 'css-stars',
+				onSelect: function(value, text, event) {
+					if (typeof(event) !== 'undefined') {
+						// rating was selected by a user
+						var rating = $(event.target).data("rating-value");
+						$.ajax({
+							type: "POST",
+							url: "/rating",
+							data: { "url": window.location.pathname, "rating": rating },
+						});
+						$("#page-rating-start").hide();
+						$("#page-rating-end").show();
+					} else {
+						// rating was selected programmatically
+						// by calling `set` method
+					}
+				}
+			});
+
+					});
+	</script>
+
+
+</body></html>
